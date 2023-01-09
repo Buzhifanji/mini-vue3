@@ -13,7 +13,7 @@ export default [{
       sourcemap: true,
       file: './packages/vue/dist/vue.js', // 导出地址
       format: 'iife',
-      name: 'vue'
+      name: 'Vue'
     }
   ],
   plugins: [

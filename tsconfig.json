@@ -17,7 +17,12 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "removeComments": false,
-    "lib": ["esnext", "dom"]
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@vue/compat": ["packages/vue-compat/src"],
+      "@vue/*": ["packages/*/src"],
+      "vue": ["packages/vue/src"]
+    }
   },
   // 入口  "packages/*/src"
   "include": ["packages/vue/src/index.ts"]
