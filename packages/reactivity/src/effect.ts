@@ -1,3 +1,4 @@
+import { isArray } from '@vue/shared'
 import { createDep, Dep } from './dep'
 
 // stores {target -> key -> Dep}
@@ -72,7 +73,7 @@ export function trackEffects(dep: Dep) {
  * @param dep 
  */
 export function triggerEffects(dep: Dep) {
-  const effects = Array.isArray(dep) ? dep : [...dep]
+  const effects = isArray(dep) ? dep : [...dep]
 
   // 依次触发依赖
   for (const effect of effects) {

@@ -1,7 +1,7 @@
 {
-  "name": "@vue/reactivity",
+  "name": "@vue/shared",
   "version": "1.0.0",
-  "description": "@vue/reactivity",
+  "description": "@vue/shared",
   "main": "index.js",
   "module": "dist/reactivity.esm-bundler.js",
   "types": "dist/reactivity.d.ts",
@@ -24,6 +24,5 @@
     "vue"
   ],
   "dependencies": {
-    "@vue/shared": "1.0.0"
   }
 }

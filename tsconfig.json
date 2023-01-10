@@ -25,5 +25,9 @@
     }
   },
   // 入口  "packages/*/src"
-  "include": ["packages/vue/src/index.ts"]
+  "include": [
+    "packages/vue/src/index.ts",
+    "packages/reactivity/src/index.ts",
+    "packages/shared/src/index.ts"
+  ]
 }
