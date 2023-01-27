@@ -59,17 +59,22 @@ class RefImpl<T>  {
   }
 }
 
+type RefBase<T> = {
+  dep?: Dep
+  value: T
+}
+
 /**
  * 收集依赖
  */
-function trackRefValue(ref: RefImpl<any>) {
+export function trackRefValue(ref: RefBase<any>) {
   if (activeEffect) {
     // 执行依赖收集的逻辑
     trackEffects(ref.dep || (ref.dep = createDep()))
   }
 }
 
-function triggerRefValue(ref: RefImpl<any>) {
+export function triggerRefValue(ref: RefBase<any>) {
   if (ref.dep) {
     triggerEffects(ref.dep)
   }

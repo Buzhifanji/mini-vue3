@@ -1,9 +1,12 @@
 import { isArray } from '@vue/shared'
+import { ComputedRefImpl } from './computed'
 import { createDep, Dep } from './dep'
 
 // stores {target -> key -> Dep}
 type KeyToDepMap = Map<any, Dep>
 const targetMap = new WeakMap<any, KeyToDepMap>()
+
+export type EffectScheduler = (...args: any[]) => any
 
 export function effect<T = any>(fn: () => T) {
   const _effect = new ReactiveEffect(fn)
@@ -14,7 +17,13 @@ export function effect<T = any>(fn: () => T) {
 export let activeEffect: ReactiveEffect | undefined;
 
 export class ReactiveEffect<T = any> {
-  constructor(public fn: () => T) { }
+
+  computed?: ComputedRefImpl<T>; // 计算属性 
+
+  constructor(
+    public fn: () => T,
+    public scheduler: EffectScheduler | null = null, // 调度器
+  ) { }
 
   run() {
     activeEffect = this;
@@ -86,5 +95,10 @@ export function triggerEffects(dep: Dep) {
  * @param effect 
  */
 export function triggerEffect(effect: ReactiveEffect) {
-  effect.run()
+  if (effect.scheduler) {
+    // 如果有调度器，执行调度器
+    effect.scheduler()
+  } else {
+    effect.run()
+  }
 }

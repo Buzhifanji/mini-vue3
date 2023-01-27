@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>computed</title>
+    <script src="../../dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+
+  <script>
+    const { reactive, effect, computed } = Vue
+
+    const obj = reactive({
+      name: "li ming",
+    })
+
+    const computedObj = computed(() => {
+      return "姓名： " + obj.name
+    })
+
+    // effect 完成依赖收集
+    effect(() => {
+      document.querySelector("#app").innerText = computedObj.value
+    })
+
+    // 触发依赖
+    setTimeout(() => {
+      debugger
+      obj.name = "li mei"
+    }, 1000)
+  </script>
+</html>
