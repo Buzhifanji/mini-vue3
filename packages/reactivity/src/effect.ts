@@ -1,4 +1,4 @@
-import { isArray } from '@vue/shared'
+import { extend, isArray } from '@vue/shared'
 import { ComputedRefImpl } from './computed'
 import { createDep, Dep } from './dep'
 
@@ -15,6 +15,12 @@ export interface ReactiveEffectOptions {
 
 export function effect<T = any>(fn: () => T, options?: ReactiveEffectOptions) {
   const _effect = new ReactiveEffect(fn)
+
+  // 主要是合并 调度器 scheduler 属性，从而 通过 scheduler 控制代码执行顺序
+  // （lazy 属性 ReactiveEffect 并未定义）
+  if (options) {
+    extend(_effect, options)
+  }
 
   // 懒执行
   if (!options || !options.lazy) {
