@@ -24,14 +24,22 @@ importers:
     dependencies:
       '@vue/shared': link:../shared
 
+  packages/runtime-core:
+    specifiers:
+      '@vue/shared': 1.0.0
+    dependencies:
+      '@vue/shared': link:../shared
+
   packages/shared:
     specifiers: {}
 
   packages/vue:
     specifiers:
       '@vue/reactivity': 1.0.0
+      '@vue/runtime-core': 1.0.0
     dependencies:
       '@vue/reactivity': link:../reactivity
+      '@vue/runtime-core': link:../runtime-core
 
 packages:
 

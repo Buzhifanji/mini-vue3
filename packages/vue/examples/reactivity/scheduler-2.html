@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scheduler</title>
+    <script src="../../dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+  <script>
+    const { reactive, effect, queueJob } = Vue
+
+    const obj = reactive({
+      count: 1,
+    })
+
+    effect(
+      () => {
+        console.log(obj.count)
+      },
+      {
+        // 控制代码 执行规则
+        scheduler() {
+          queueJob(() => console.log(obj.count))
+        },
+      }
+    )
+
+    obj.count = 2
+    obj.count = 3
+
+    // 会打印 1 2 3，能不能实现，只打印初始值 1 和最终值 3，跳过中间值 2？
+    // 通过 queueJob 就能实现
+    console.log("代码结束")
+  </script>
+</html>
