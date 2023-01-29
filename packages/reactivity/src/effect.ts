@@ -85,8 +85,39 @@ export function triggerEffects(dep: Dep) {
   const effects = isArray(dep) ? dep : [...dep]
 
   // 依次触发依赖
+
+  /**
+   * 
+   * const computedObj = computed(() => {
+      console.log("计算属性执行")
+      return "姓名： " + obj.name
+    })
+
+    // effect 完成依赖收集
+    effect(() => {
+      document.querySelector("#app").innerText = computedObj.value
+      document.querySelector("#app").innerText = computedObj.value
+    })
+
+    // 触发依赖
+    setTimeout(() => {
+      obj.name = "li mei"
+    }, 1000)
+   * 
+   * 解决 computed 循环调用的问题：
+   * 引发原因：如果先执行没有调度器的effect，会读取 computed 的value 属性，会触发依赖收集，
+   * 由于computed 的_dirty为false，再次调用有调度器的 effect 时候，会更新依赖，如此循环反复。
+   */
   for (const effect of effects) {
-    triggerEffect(effect)
+    if (effect.computed) {
+      triggerEffect(effect)
+    }
+  }
+
+  for (const effect of effects) {
+    if (!effect.computed) {
+      triggerEffect(effect)
+    }
   }
 }
 

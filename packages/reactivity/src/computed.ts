@@ -55,6 +55,16 @@ export class ComputedRefImpl<T> {
   }
 
   /**
+   * 这里一共会触发两次依赖收集：
+   * 第一次是：当读取 value 时，会执行 trackRefValue，此时 activeEffect 为 effect 包裹的副作用函数，与 reactive 逻辑一样，
+   * 这个收集依赖是没有调度器的
+   * 
+   * 第二次是：effect.run 函数执行的时候，。此时执行的是 computed 包裹的副作用函数 fn，fn函数里如果有响应式对象数据，执行的时候，会触发依赖收集，
+   * 而 activeEffect 正好为 computed，这样 computed 与响应式包裹的响应式对象数据建立了依赖关系。
+   * computed实例化的时候，会定义一个 scheduler 调度器，所以此时 收集的依赖是有调度器的。
+   * 
+   * 当响应式对象数据发生变化时，会触发effect依赖，由于 computed 定义 scheduler，所以会执行 scheduler，而不是 computed 包裹的fn函数
+   * 此时如果 _dirty 为false，会更新依赖，这个依赖正是第一次收集好的依赖，也就会执行  effect 包裹的副作用函
    * 
    */
   get value() {
@@ -71,7 +81,5 @@ export class ComputedRefImpl<T> {
     return this._value
   }
 
-  // set value(newValue: T) {
-  //   this.
-  // }
+  // 省略 set value
 }
