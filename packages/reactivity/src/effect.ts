@@ -8,10 +8,18 @@ const targetMap = new WeakMap<any, KeyToDepMap>()
 
 export type EffectScheduler = (...args: any[]) => any
 
-export function effect<T = any>(fn: () => T) {
+export interface ReactiveEffectOptions {
+  lazy?: boolean
+  scheduler?: EffectScheduler
+}
+
+export function effect<T = any>(fn: () => T, options?: ReactiveEffectOptions) {
   const _effect = new ReactiveEffect(fn)
 
-  _effect.run()
+  // 懒执行
+  if (!options || !options.lazy) {
+    _effect.run()
+  }
 }
 
 export let activeEffect: ReactiveEffect | undefined;
