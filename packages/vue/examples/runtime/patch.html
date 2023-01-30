@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>更新</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+
+  <script>
+    // <div>hello render</div>
+    const vnode = {
+      type: "div",
+      children: "hello render",
+    }
+
+    const vnode2 = {
+      type: "div",
+      children: "patch render",
+    }
+
+    function render(oldVNode, newVNode, container) {
+      if (!oldVNode) {
+        // 没有旧节点，说明是第一次 挂载
+        mount(newVNode, container)
+      } else {
+        // 更新：删除旧的节点，然后挂载新的节点
+        patch(oldVNode, newVNode, container)
+      }
+    }
+
+    // 挂载
+    function mount(vnode, container) {
+      const el = document.createElement(vnode.type)
+      el.innerText = vnode.children
+
+      container.appendChild(el)
+    }
+
+    // 卸载
+    function unmount(container) {
+      container.innerHTML = ""
+    }
+
+    // 更新
+    function patch(oldVNode, newVNode, container) {
+      // 删除久的节点
+      unmount(container)
+
+      // 挂载新的节点
+      const el = document.createElement(newVNode.type)
+      el.innerText = newVNode.children
+
+      container.appendChild(el)
+    }
+
+    const app = document.querySelector("#app")
+
+    render(null, vnode, app)
+
+    setTimeout(() => {
+      render(vnode, vnode2, app)
+    }, 2000)
+  </script>
+</html>

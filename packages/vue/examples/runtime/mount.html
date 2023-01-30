@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>挂载</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+
+  <script>
+    // <div>hello render</div>
+    const vnode = {
+      type: "div",
+      children: "hello render",
+    }
+
+    function render(oldVNode, newVNode, container) {
+      if (!oldVNode) {
+        // 没有旧节点，说明是第一次 挂载
+        mount(newVNode, container)
+      }
+    }
+
+    function mount(vnode, container) {
+      const el = document.createElement(vnode.type)
+      el.innerText = vnode.children
+
+      container.appendChild(el)
+    }
+
+    render(null, vnode, document.querySelector("#app"))
+  </script>
+</html>
