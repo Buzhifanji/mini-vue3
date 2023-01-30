@@ -20,6 +20,7 @@
     "vue"
   ],
   "dependencies": {
+    "@vue/reactivity": "1.0.0",
     "@vue/shared": "1.0.0"
   }
 }

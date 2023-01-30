@@ -26,8 +26,10 @@ importers:
 
   packages/runtime-core:
     specifiers:
+      '@vue/reactivity': 1.0.0
       '@vue/shared': 1.0.0
     dependencies:
+      '@vue/reactivity': link:../reactivity
       '@vue/shared': link:../shared
 
   packages/shared:
