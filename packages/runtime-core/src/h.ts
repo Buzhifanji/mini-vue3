@@ -1,5 +1,13 @@
 import { isArray, isObject } from '@vue/shared';
 import { createVNode, isVNode, VNode } from "./vnode";
+
+/**
+ * 对于开发者来说，通过 h 函数来创建 虚拟dom（vnode）
+ * @param type 
+ * @param propsOrChilren 
+ * @param children 
+ * @returns 
+ */
 export function h(type: any, propsOrChilren?: any, children?: any): VNode {
   const l = arguments.length
 
